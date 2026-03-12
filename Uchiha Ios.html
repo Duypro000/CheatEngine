@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Uchiha IOS</title>
+
+<style>
+
+body{
+background:black;
+color:#00ff9c;
+font-family:monospace;
+text-align:center;
+padding:20px;
+}
+
+h2{
+color:red;
+}
+
+/* sharingan */
+
+.sharingan{
+width:100px;
+height:100px;
+border-radius:50%;
+background:red;
+margin:auto;
+box-shadow:0 0 20px red;
+animation:spin 4s linear infinite;
+}
+
+@keyframes spin{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
+}
+
+/* terminal */
+
+#terminal{
+border:1px solid #00ff9c;
+padding:10px;
+height:200px;
+overflow:auto;
+margin-top:15px;
+text-align:left;
+}
+
+/* buttons */
+
+button{
+margin:6px;
+padding:10px 14px;
+background:black;
+color:#00ff9c;
+border:1px solid #00ff9c;
+}
+
+/* loading bar */
+
+#bar{
+width:100%;
+background:#111;
+border:1px solid #00ff9c;
+margin-top:10px;
+}
+
+#progress{
+width:0%;
+height:18px;
+background:#00ff9c;
+}
+
+/* game */
+
+canvas{
+background:#111;
+margin-top:10px;
+}
+
+</style>
+
+<script>
+
+function log(text){
+
+var term=document.getElementById("terminal");
+
+term.innerHTML += "> "+text+"<br>";
+
+term.scrollTop=term.scrollHeight;
+
+}
+
+function boost(){
+
+log("Initializing Boosting System...");
+
+var bar=document.getElementById("progress");
+
+var w=0;
+
+var i=setInterval(function(){
+
+if(w>=100){
+
+clearInterval(i);
+
+log("Boost Complete");
+
+}else{
+
+w+=4;
+
+bar.style.width=w+"%";
+
+}
+
+},80);
+
+}
+
+let score=0;
+
+function spawn(){
+
+var c=document.getElementById("game");
+
+var ctx=c.getContext("2d");
+
+var x=Math.random()*280;
+
+var y=Math.random()*130;
+
+ctx.clearRect(0,0,300,150);
+
+ctx.beginPath();
+
+ctx.arc(x,y,12,0,Math.PI*2);
+
+ctx.fillStyle="red";
+
+ctx.fill();
+
+c.onclick=function(e){
+
+var rect=c.getBoundingClientRect();
+
+var mx=e.clientX-rect.left;
+
+var my=e.clientY-rect.top;
+
+if(Math.hypot(mx-x,my-y)<15){
+
+score++;
+
+document.getElementById("score").innerText=score;
+
+spawn();
+
+}
+
+};
+
+}
+
+function openff(){
+
+window.location="https://ff.garena.com";
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2>UCHIHA IOS</h2>
+
+<div class="sharingan"></div>
+
+<div id="terminal">
+
+> Uchiha System Ready  
+> Demo Interface Loaded  
+
+</div>
+
+<button onclick="log('Aim Lock Loaded ')">Load Aim Lock</button>
+
+<button onclick="log('RAM Boost Module Loaded ')">Boost RAM</button>
+
+<button onclick="boost()">Run Boosting System</button>
+
+<button onclick="openff()">Open Free Fire</button>
+
+<div id="bar">
+
+<div id="progress"></div>
+
+</div>
+
+<h3>Headshot Trainer</h3>
+
+<button onclick="spawn()">Start Training</button>
+
+Score: <span id="score">0</span>
+
+<br>
+
+<canvas id="game" width="300" height="150"></canvas>
+
+</body>
+
+</html>
